@@ -32,11 +32,20 @@
         "type": "inject",
         "z": "ac55c6a1a9efc413",
         "name": "",
-        "repeat": "10",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
         "crontab": "",
         "once": false,
+        "onceDelay": "",
         "topic": "",
-        "payload": "",
         "payloadType": "date",
         "x": 304.5,
         "y": 208.25,
@@ -150,7 +159,7 @@
         "z": "ac55c6a1a9efc413",
         "name": "",
         "group": "1890881e.83819",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "label": "Shutdown",
@@ -174,7 +183,7 @@
         "z": "ac55c6a1a9efc413",
         "name": "",
         "group": "1890881e.83819",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -201,7 +210,7 @@
         "z": "ac55c6a1a9efc413",
         "name": "",
         "group": "1890881e.83819",
-        "order": 1,
+        "order": 2,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -314,7 +323,7 @@
         "z": "ac55c6a1a9efc413",
         "name": "",
         "group": "1890881e.83819",
-        "order": 3,
+        "order": 4,
         "width": "0",
         "height": "0",
         "gtype": "gage",
@@ -477,9 +486,12 @@
         "type": "function",
         "z": "ac55c6a1a9efc413",
         "name": "convert_uptime",
-        "func": "var d = Math.floor(msg.payload.uptime / 86400);\nvar h = Math.floor((msg.payload.uptime % 86400) / 3600);\nvar m = Math.floor(((msg.payload.uptime % 86400) % 3600) / 60);\nvar s = ((msg.payload.uptime % 86400) % 3600) % 60;\nmsg.payload = d + ':' + h + ':' + m + ':' + s;\nreturn msg;",
+        "func": "var d = Math.floor(msg.payload.uptime / 86400);\nvar h = Math.floor((msg.payload.uptime % 86400) / 3600);\nvar m = Math.floor(((msg.payload.uptime % 86400) % 3600) / 60);\nvar s = ((msg.payload.uptime % 86400) % 3600) % 60;\nmsg.payload = d + ':' + h + ':' + m;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 760,
         "y": 600,
         "wires": [
@@ -492,15 +504,16 @@
         "id": "3b0864ed96a17a2b",
         "type": "ui_text",
         "z": "ac55c6a1a9efc413",
-        "group": "8e72d94d.e2b8c8",
+        "group": "ddde7dabeb74e712",
         "order": 1,
         "width": 0,
         "height": 0,
         "name": "",
-        "label": "Uptime, d:h:m:s",
+        "label": "Uptime",
         "format": "{{ msg.payload }}",
         "layout": "row-spread",
-        "x": 960,
+        "className": "",
+        "x": 940,
         "y": 600,
         "wires": []
     },
@@ -613,6 +626,70 @@
             [
                 "76e9f05373fac2c6",
                 "57b58dde937c83b4"
+            ]
+        ]
+    },
+    {
+        "id": "fefa0f70e33e18d9",
+        "type": "ui_text",
+        "z": "ac55c6a1a9efc413",
+        "group": "1890881e.83819",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "",
+        "format": "{{ msg.payload }}",
+        "layout": "row-left",
+        "className": "",
+        "x": 730,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "f6b61c2b52d98be6",
+        "type": "function",
+        "z": "ac55c6a1a9efc413",
+        "name": "",
+        "func": "var d = new Date();\nvar options = { timeZone: 'Asia/Jakarta', year: 'numeric', month: '2-digit', day: '2-digit', hour: `2-digit`, minute: `2-digit` };\nvar _resultDate = d.toLocaleDateString('id', options);\nmsg.payload = _resultDate;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 820,
+        "wires": [
+            [
+                "fefa0f70e33e18d9"
+            ]
+        ]
+    },
+    {
+        "id": "8ed3ee07d9630f16",
+        "type": "inject",
+        "z": "ac55c6a1a9efc413",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 280,
+        "y": 820,
+        "wires": [
+            [
+                "f6b61c2b52d98be6"
             ]
         ]
     },
